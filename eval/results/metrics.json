@@ -1,0 +1,6 @@
+{
+  "scenario_count": 3,
+  "pattern_detection_accuracy": 1.0,
+  "risk_classification_accuracy": 0.3333,
+  "false_positive_rate_low_risk": 0.0
+}

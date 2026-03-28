@@ -1,0 +1,21 @@
+services:
+  fraud-monitor-api:
+    build: .
+    ports:
+      - "8001:8001"
+    env_file: .env
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  dashboard:
+    build:
+      context: ./dashboard
+    ports:
+      - "8501:8501"
+    depends_on:
+      - fraud-monitor-api
+    environment:
+      - API_URL=http://fraud-monitor-api:8001

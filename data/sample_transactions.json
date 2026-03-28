@@ -1,0 +1,32 @@
+[
+  {
+    "transaction_id": "TXN-2026-0042",
+    "amount": 49999.0,
+    "sender_account": "ACC-001-SENDER",
+    "receiver_account": "ACC-999-RECEIVER",
+    "timestamp": "2026-03-28T14:30:00Z",
+    "description": "Wire transfer - business payment",
+    "channel": "online_banking",
+    "location": "Jakarta"
+  },
+  {
+    "transaction_id": "TXN-LEGIT-0001",
+    "amount": 500.0,
+    "sender_account": "ACC-LEGIT-500",
+    "receiver_account": "ACC-STABLE-123",
+    "timestamp": "2026-03-28T10:15:00Z",
+    "description": "Grocery purchase",
+    "channel": "card",
+    "location": "Jakarta"
+  },
+  {
+    "transaction_id": "TXN-MULE-0007",
+    "amount": 48750.0,
+    "sender_account": "ACC-FAST-777",
+    "receiver_account": "ACC-NEW-002",
+    "timestamp": "2026-03-28T23:40:00Z",
+    "description": "Urgent settlement",
+    "channel": "mobile_app",
+    "location": "Surabaya"
+  }
+]

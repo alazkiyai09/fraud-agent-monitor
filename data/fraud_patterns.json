@@ -1,0 +1,34 @@
+{
+  "patterns": [
+    {
+      "name": "Structuring (Smurfing)",
+      "typology": "smurfing",
+      "base_confidence": 0.52,
+      "indicators": ["amount_near_threshold", "velocity_spike"]
+    },
+    {
+      "name": "Mule Account Funnel",
+      "typology": "mule_account",
+      "base_confidence": 0.58,
+      "indicators": ["new_receiver", "velocity_spike", "geographic_mismatch"]
+    },
+    {
+      "name": "Bust-Out Behavior",
+      "typology": "bust_out",
+      "base_confidence": 0.5,
+      "indicators": ["velocity_spike", "amount_near_threshold", "unusual_timing"]
+    },
+    {
+      "name": "Layering Attempt",
+      "typology": "layering",
+      "base_confidence": 0.47,
+      "indicators": ["geographic_mismatch", "unusual_timing"]
+    },
+    {
+      "name": "Identity Fraud Signal",
+      "typology": "identity_fraud",
+      "base_confidence": 0.45,
+      "indicators": ["new_receiver", "geographic_mismatch"]
+    }
+  ]
+}

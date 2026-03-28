@@ -1,0 +1,47 @@
+[
+  {
+    "name": "smurfing_case",
+    "transaction": {
+      "transaction_id": "SCN-001",
+      "amount": 49990.0,
+      "sender_account": "ACC-001-SENDER",
+      "receiver_account": "ACC-999-RECEIVER",
+      "timestamp": "2026-03-28T09:05:00Z",
+      "description": "Wire payment",
+      "channel": "online_banking",
+      "location": "Jakarta"
+    },
+    "expected_typologies": ["smurfing", "mule_account"],
+    "expected_risk_level": "HIGH"
+  },
+  {
+    "name": "legitimate_low",
+    "transaction": {
+      "transaction_id": "SCN-002",
+      "amount": 450.0,
+      "sender_account": "ACC-LEGIT-500",
+      "receiver_account": "ACC-STABLE-123",
+      "timestamp": "2026-03-28T11:00:00Z",
+      "description": "Retail purchase",
+      "channel": "card",
+      "location": "Jakarta"
+    },
+    "expected_typologies": [],
+    "expected_risk_level": "LOW"
+  },
+  {
+    "name": "mule_and_layering",
+    "transaction": {
+      "transaction_id": "SCN-003",
+      "amount": 49880.0,
+      "sender_account": "ACC-FAST-777",
+      "receiver_account": "ACC-NEW-002",
+      "timestamp": "2026-03-28T22:45:00Z",
+      "description": "Consulting transfer",
+      "channel": "mobile_app",
+      "location": "Surabaya"
+    },
+    "expected_typologies": ["mule_account", "layering", "smurfing"],
+    "expected_risk_level": "HIGH"
+  }
+]
