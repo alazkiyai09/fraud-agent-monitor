@@ -1,6 +1,15 @@
-# Multi-Agent Fraud Monitor
+# Fraud Agent Monitor
 
-LangGraph-based fraud monitoring system with 4 specialized agents:
+Multi-agent fraud monitoring system using LangGraph + LangSmith + FastAPI + Streamlit.
+
+## Live Demo (Deployment Placeholder)
+
+- API base URL: `https://fraud-monitor-api-xxxxx-as.a.run.app`
+- API docs: `https://fraud-monitor-api-xxxxx-as.a.run.app/docs`
+- Streamlit dashboard: `https://fraud-monitor.streamlit.app`
+- Status: `pending deployment`
+
+## Agent Pipeline
 
 1. Transaction Analyzer
 2. Pattern Detector
@@ -9,9 +18,9 @@ LangGraph-based fraud monitoring system with 4 specialized agents:
 
 ## API Endpoints
 
-- `POST /monitor`: run full orchestration pipeline
-- `POST /agents/{name}/invoke`: invoke a single agent for debugging
-- `GET /health`: service + graph health
+- `POST /monitor`
+- `POST /agents/{name}/invoke`
+- `GET /health`
 
 ## Local Run
 
@@ -23,7 +32,7 @@ cp .env.example .env
 uvicorn app.main:app --reload --port 8001
 ```
 
-## Run Dashboard
+## Dashboard
 
 ```bash
 streamlit run dashboard/app.py
@@ -41,8 +50,4 @@ docker compose up --build
 pytest --cov=app --cov-report=term-missing -v
 ```
 
-## Evaluation
-
-```bash
-python3 eval/evaluate_agents.py --scenarios eval/test_scenarios.json
-```
+Update live links above once deployed.
