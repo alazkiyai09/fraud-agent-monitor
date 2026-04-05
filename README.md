@@ -1,40 +1,45 @@
-# Fraud Agent Monitor
+# Multi-Agent Fraud Monitor
 
-Multi-agent fraud monitoring system using LangGraph + LangSmith + FastAPI + Streamlit.
-
-## Live Demo (Deployment Placeholder)
-
-- API base URL: `https://fraud-monitor-api-xxxxx-as.a.run.app`
-- API docs: `https://fraud-monitor-api-xxxxx-as.a.run.app/docs`
-- Streamlit dashboard: `https://fraud-monitor.streamlit.app`
-- Status: `pending deployment`
-
-## Agent Pipeline
+LangGraph-based fraud monitoring system with 4 specialized agents:
 
 1. Transaction Analyzer
 2. Pattern Detector
 3. Risk Scorer
 4. Report Generator
 
+## Live Demo
+
+| Interface | URL |
+|---|---|
+| Interactive Dashboard | https://fraud-monitor-demo-5tphgb6fsa-as.a.run.app |
+| API Documentation | https://fraud-monitor-api-5tphgb6fsa-as.a.run.app/docs |
+
 ## API Endpoints
 
-- `POST /monitor`
-- `POST /agents/{name}/invoke`
-- `GET /health`
+- `POST /monitor`: run full orchestration pipeline
+- `POST /agents/{name}/invoke`: invoke a single agent for debugging
+- `GET /health`: service + graph health
 
 ## Local Run
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -r requirements.lock.txt
 cp .env.example .env
 uvicorn app.main:app --reload --port 8001
 ```
 
-## Dashboard
+Flexible install without the lockfile:
 
 ```bash
+pip install -r requirements.txt
+```
+
+## Run Dashboard
+
+```bash
+pip install -r dashboard/requirements.lock.txt
 streamlit run dashboard/app.py
 ```
 
@@ -50,4 +55,15 @@ docker compose up --build
 pytest --cov=app --cov-report=term-missing -v
 ```
 
-Update live links above once deployed.
+## Evaluation
+
+```bash
+python3 eval/evaluate_agents.py --scenarios eval/test_scenarios.json
+```
+
+## Reproducible Dependency Audit
+
+```bash
+pip-audit -r requirements.lock.txt --no-deps --disable-pip
+pip-audit -r dashboard/requirements.lock.txt --no-deps --disable-pip
+```

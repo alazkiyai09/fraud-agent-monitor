@@ -1,12 +1,14 @@
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.agents.graph import build_fraud_monitor_graph
 from app.config import get_settings
 from app.routers import agents_router, health_router, monitor_router
+from app.security import require_api_key
 
 settings = get_settings()
 settings.apply_langsmith_env()
+cors_allow_origins = settings.parsed_cors_allow_origins()
 
 app = FastAPI(
     title="Multi-Agent Fraud Monitor",
@@ -16,15 +18,15 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=cors_allow_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 app.include_router(health_router)
-app.include_router(monitor_router)
-app.include_router(agents_router)
+app.include_router(monitor_router, dependencies=[Depends(require_api_key)])
+app.include_router(agents_router, dependencies=[Depends(require_api_key)])
 
 app.state.fraud_monitor_graph = build_fraud_monitor_graph()
 app.state.langsmith_connected = bool(settings.langsmith_api_key)

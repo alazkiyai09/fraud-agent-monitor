@@ -1,4 +1,6 @@
-from fastapi import APIRouter, HTTPException, Path, status
+import logging
+
+from fastapi import APIRouter, Depends, HTTPException, Path, status
 
 from app.agents.pattern_detector import detect_patterns
 from app.agents.report_generator import generate_report
@@ -7,8 +9,10 @@ from app.agents.state import MonitorState
 from app.agents.transaction_analyzer import analyze_transaction
 from app.models.request import AgentInvokeRequest
 from app.models.response import AgentInvokeResponse
+from app.rate_limit import limit_agent_invoke_requests
 
 router = APIRouter(prefix="/agents", tags=["agents"])
+logger = logging.getLogger(__name__)
 
 _AGENT_FN = {
     "transaction_analyzer": analyze_transaction,
@@ -32,7 +36,11 @@ def _build_state(payload: AgentInvokeRequest) -> MonitorState:
     }
 
 
-@router.post("/{name}/invoke", response_model=AgentInvokeResponse)
+@router.post(
+    "/{name}/invoke",
+    response_model=AgentInvokeResponse,
+    dependencies=[Depends(limit_agent_invoke_requests)],
+)
 def invoke_agent(
     payload: AgentInvokeRequest,
     name: str = Path(..., description="transaction_analyzer | pattern_detector | risk_scorer | report_generator"),
@@ -48,7 +56,11 @@ def invoke_agent(
     except ValueError as exc:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
     except Exception as exc:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(exc)) from exc
+        logger.exception("Agent invocation failed for %s", name)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Agent invocation failed.",
+        ) from exc
 
     state.update(updates)
     return AgentInvokeResponse(agent=name, state=state)
